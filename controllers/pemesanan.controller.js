@@ -5,17 +5,13 @@ const typeModel = require("../models/index").tipe_kamar;
 const detailModel = require("../models/index").detail_pemesanan;
 
 const Op = require(`sequelize`).Op;
-// const bcrypt = require(`bcrypt`);
-// const { uploadCustomer } = require("./upload-foto.controller");
-// const fs = require("fs");
-// const path = require("path");
 const moment = require("moment");
 
 exports.getAllPemesanan = async (req, res) => {
   try {
     const bookingData = await bookingModel.findAll();
 
-    if (bookingData == 0) {
+    if (bookingData.length == 0) {
       return res.status(404).json({
         success: true,
         message: "empty data",
