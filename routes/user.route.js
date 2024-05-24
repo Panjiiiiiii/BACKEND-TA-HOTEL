@@ -12,7 +12,7 @@ app.get("/count", authorize, isAdmin, userController.countCustomer)
 app.post("/add", authorize, isAdmin, userController.addUser);
 app.post("/register", userController.register);
 app.post("/find/:keyword", authorize, isAdmin, userController.getUser);
-app.put("/update/:id", authorize, isCustomer, validateUser, userController.updateUser);
+app.put("/update/:id", authorize, isCustomer, userController.updateUser);
 app.put("/reset/:id", userController.resetPassword)
 app.delete("/delete/:id", authorize, isAdmin, userController.deleteUser);
 
