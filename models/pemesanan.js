@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsTo(models.tipe_kamar, {foreignKey: 'id_tipe_kamar', as: 'tipe_kamar'});
 
-      this.belongsTo(models.user, {foreignKey: 'id', as: 'user'});
+      this.belongsTo(models.user, {foreignKey: 'id_user', as: 'user'});
     }
   }
   pemesanan.init({
