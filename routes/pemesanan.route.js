@@ -8,5 +8,6 @@ const {isCustomer,isAdmin} = require('../middlewares/role-validation')
 app.use(express.json());
 
 app.post("/",  bookingController.bookRoom)
+app.get("/getOrder",  bookingController.getAllPemesanan)
 
 module.exports = app;
