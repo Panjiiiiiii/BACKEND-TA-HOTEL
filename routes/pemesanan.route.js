@@ -9,5 +9,9 @@ app.use(express.json());
 
 app.post("/",  bookingController.bookRoom)
 app.get("/getOrder",  bookingController.getAllPemesanan)
+app.get("/filterKamar", bookingController.filterKamar)
+app.post("/check_in", bookingController.checkIn)
+app.post("/check_out", bookingController.checkOut)
+app.post("/clear_status", bookingController.clearStatus)
 
 module.exports = app;
