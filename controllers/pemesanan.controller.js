@@ -43,7 +43,8 @@ exports.filterKamar = async (req, res) => {
         {
           model: roomModel,
           as: "kamar",
-          where: { status: avalaible },
+          where: {status: "avalaible"},
+          attributes: []
         },
       ],
     });
@@ -113,16 +114,16 @@ exports.bookRoom = async (req, res) => {
       ],
       attributes: ["id", "nama_tipe_kamar"],
     });
-    
-    if(dataPemesanan.length === 0){
+
+    if (dataPemesanan.length === 0) {
       return res.json({
         message: "Maaf Kamar tidak tersedia",
-      })
+      });
     }
-    
+
     // Mendapatkan daftar id kamar yang tersedia
     let availableRooms = dataPemesanan[0].kamar.map((room) => room.id);
-    
+
     // Memilih kamar yang tersedia sesuai jumlah yang diminta
     let roomsDataSelected = availableRooms.slice(0, requestData.jumlah_kamar);
 
@@ -156,17 +157,19 @@ exports.bookRoom = async (req, res) => {
             );
           }
           // Proses untuk menambahkan detail pemesanan
-          for (let j = 0; j < roomsDataSelected.length; j++) {
-            let tgl_akses = new Date(checkInDate);
-            tgl_akses.setDate(tgl_akses.getDate());
-            let requestDataDetail = {
-              id_pemesanan: result.id,
-              id_kamar: roomsDataSelected[j],
-              tgl_akses: tgl_akses,
-              harga: dataTipeKamar.harga,
-            };
-            // Menambahkan detail pemesanan ke database
-            await detailModel.create(requestDataDetail);
+          for (let i = 0; i < dayTotal; i++) {
+            for (let j = 0; j < roomsDataSelected.length; j++) {
+              let tgl_akses = new Date(checkInDate);
+              tgl_akses.setDate(tgl_akses.getDate() + i);
+              let requestDataDetail = {
+                id_pemesanan: result.id,
+                id_kamar: roomsDataSelected[j],
+                tgl_akses: tgl_akses,
+                harga: dataTipeKamar.harga,
+              };
+              // Menambahkan detail pemesanan ke database
+              await detailModel.create(requestDataDetail);
+            }
           }
 
           // Mengembalikan respons sukses dengan data pemesanan
@@ -219,7 +222,7 @@ exports.checkOut = async (req, res) => {
       where: { id_pemesanan: bookingId },
       attributes: ["id_kamar"],
     });
-    
+
     for (let room of roomsDataSelected) {
       await roomModel.update(
         { status: "avalaible" },
