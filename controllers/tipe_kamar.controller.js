@@ -2,6 +2,7 @@ const tipeModel = require("../models/index").tipe_kamar;
 const Op = require("sequelize").Op;
 const path = require("path");
 const fs = require("fs");
+const { error } = require("console");
 const upload = require("./upload-foto-tipe_kamar.controller").single(`foto`);
 
 exports.getAllType = async (req, res) => {
@@ -85,6 +86,7 @@ exports.updateType = (req, res) => {
         nama_tipe_kamar: req.body.nama_tipe_kamar,
         harga: Number(req.body.harga),
         deskripsi: req.body.deskripsi,
+        foto : req.file.filename
       };
 
       if (req.file) {
@@ -106,6 +108,7 @@ exports.updateType = (req, res) => {
         .then((result) => {
           return res.json({
             success: true,
+            data : newTypes,
             message: "Data has been updated",
           });
         })
@@ -163,3 +166,14 @@ exports.CountType = async (req, res) => {
     });
   }
 };
+
+
+exports.getPhoto = (req,res) => {
+  const filename = req.params.filename
+  const filePath = path.join(__dirname, "../images/tipe_kamar", filename)
+  res.sendFile(filePath, (err) => {
+    if(err){
+      res.status(500).json({error : "Internal error"})
+    }
+  })
+}
