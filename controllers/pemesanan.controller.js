@@ -332,15 +332,3 @@ exports.getCheckOut = async (req, res) => {
     });
   }
 };
-
-exports.getKamar = async (req, res) => {
-  let dataKamar = await sequelize.query(
-    `SELECT tipe_kamars.*, kamars.id as id_kamar, kamars.nomor_kamar, kamars.status FROM tipe_kamars LEFT OUTER JOIN kamars ON tipe_kamars.id = kamars.id_tipe_kamar;`
-  );
-
-  console.log(dataKamar[0]);
-
-  return res.json({
-    data: dataKamar[0],
-  });
-};
