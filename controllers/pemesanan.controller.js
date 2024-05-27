@@ -3,6 +3,8 @@ const bookingModel = require("../models/index").pemesanan;
 const roomModel = require("../models/index").kamar;
 const typeModel = require("../models/index").tipe_kamar;
 const detailModel = require("../models/index").detail_pemesanan;
+const {sequelize} = require('../models/index')
+
 
 const Op = require(`sequelize`).Op;
 const moment = require("moment");
@@ -28,6 +30,32 @@ exports.getAllPemesanan = async (req, res) => {
       message: error,
     });
   }
+};
+
+exports.getAllCheckIn = async (req, res) => {
+  let pemesanan = await bookingModel.findAll({
+    where: {
+      status_pemesanan: "check_in",
+    },
+  });
+  return res.json({
+    succsess: true,
+    data: pemesanan,
+    message: `All datas have been loaded`,
+  });
+};
+
+exports.getAllCheckOut = async (req, res) => {
+  let pemesanan = await bookingModel.findAll({
+    where: {
+      status_pemesanan: "check_out",
+    },
+  });
+  return res.json({
+    succsess: true,
+    data: pemesanan,
+    message: `All datas have been loaded`,
+  });
 };
 
 exports.filterKamar = async (req, res) => {
@@ -253,4 +281,57 @@ exports.clearStatus = async (req, res) => {
       message: "Success to Clear room status",
     });
   } catch (error) {}
+};
+
+exports.countTransaksi = async (req, res) => {
+  try {
+    let data = await sequelize.query(
+      `SELECT COUNT(id) as total_transaksi from pemesanans`
+    );
+    return res.json({
+      succsess: true,
+      datas: data[0],
+      message: `Datas have been loaded`,
+    });
+  } catch (error) {
+    return res.json({
+      message: error.message,
+    });
+  }
+};
+
+exports.getCheckIn = async (req, res) => {
+  try {
+    let data = await sequelize.query(
+      `SELECT COUNT(status_pemesanan) as check_in from pemesanans WHERE status_pemesanan = 'check_in'`
+    );
+
+    return res.json({
+      succsess: true,
+      datas: data[0],
+      message: `Datas have been loaded`,
+    });
+  } catch (error) {
+    return res.json({
+      message: error.message,
+    });
+  }
+};
+
+exports.getCheckOut = async (req, res) => {
+  try {
+    let data = await sequelize.query(
+      `SELECT COUNT(status_pemesanan) as check_out from pemesanans WHERE status_pemesanan = 'check_out'`
+    );
+
+    return res.json({
+      succsess: true,
+      datas: data[0],
+      message: `Datas have been loaded`,
+    });
+  } catch (error) {
+    return res.json({
+      message: error.message,
+    });
+  }
 };

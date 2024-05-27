@@ -38,12 +38,21 @@ exports.addType = (req, res) => {
     if (error) {
       return res.json({ message: error });
     }
+
+    if (!req.file) {
+      return res.json({ message: `Nothing to Upload` });
+    }
+
     let newType = {
       nama_tipe_kamar: req.body.nama_tipe_kamar,
       harga: Number(req.body.harga),
       deskripsi: req.body.deskripsi,
       foto: req.file.filename,
     };
+
+    console.log(newType.foto);
+
+    console.log(newType);
     await tipeModel
       .create(newType)
       .then((result) => {
@@ -83,7 +92,7 @@ exports.updateType = (req, res) => {
         const oldFotoType = selectedType.foto;
         const pathFoto = path.join(
           __dirname,
-          "../images/customer",
+          "../images/tipe_kamar",
           oldFotoType
         );
 
@@ -115,7 +124,7 @@ exports.deleteType = async (req, res) => {
 
   const type = await tipeModel.findOne({ where: { id: id } });
   const oldFotoType = type.foto;
-  const pathFoto = path.join(__dirname, "../images/customer", oldFotoType);
+  const pathFoto = path.join(__dirname, "../images/tipe_kamar", oldFotoType);
   if (fs.existsSync(pathFoto)) {
     fs.unlink(pathFoto, (error) => console.log(error));
   }
