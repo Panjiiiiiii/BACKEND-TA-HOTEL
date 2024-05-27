@@ -7,14 +7,11 @@ const { isCustomer, isAdmin } = require("../middlewares/role-validation");
 
 app.use(express.json());
 
-app.post("/", bookingController.bookRoom);
-// app.get("/getAdmin", authorize, isAdmin, bookingController.getAllpemesanan);
-app.get("/getcheckin", authorize, isAdmin, bookingController.getAllCheckIn);
-app.get("/getcheckout", authorize, isAdmin, bookingController.getAllCheckOut);
-app.get("/SumTransaksi", authorize, isAdmin, bookingController.countTransaksi);
-app.get("/checkin", authorize, isAdmin, bookingController.getCheckIn);
-app.get("/checkout", authorize, isAdmin, bookingController.getCheckOut);
-app.get("/kamar", authorize, isAdmin, bookingController.getKamar);
-app.get("/getOrder", bookingController.getAllPemesanan);
+app.post("/",  bookingController.bookRoom)
+app.get("/getOrder",  bookingController.getAllPemesanan)
+app.get("/filterKamar", bookingController.filterKamar)
+app.post("/check_in", bookingController.checkIn)
+app.post("/check_out", bookingController.checkOut)
+app.post("/clear_status", bookingController.clearStatus)
 
 module.exports = app;
