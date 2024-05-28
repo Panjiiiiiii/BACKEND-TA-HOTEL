@@ -8,6 +8,7 @@ const typeControllers = require('../controllers/tipe_kamar.controller')
 app.use(express.json())
 
 app.get("/", typeControllers.getAllType)
+app.get("/:filename", typeControllers.getPhoto)
 app.get("/count", authorize,isAdmin, typeControllers.CountType)
 app.post("/find/:keyword", authorize,isAdmin, typeControllers.findType)
 app.post("/insert",authorize,isAdmin, typeControllers.addType)
