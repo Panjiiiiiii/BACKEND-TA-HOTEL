@@ -65,7 +65,6 @@ exports.filterKamar = async (req, res) => {
       tgl_check_out: req.body.tgl_check_out,
       jumlah_kamar: req.body.jumlah_kamar,
     };
-
     let filter = await typeModel.findAll({
       include: [
         {
@@ -76,7 +75,6 @@ exports.filterKamar = async (req, res) => {
         },
       ],
     });
-
     return res.json(filter);
   } catch (error) {
     return res.json({
