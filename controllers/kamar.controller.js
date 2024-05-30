@@ -124,7 +124,7 @@ exports.deleteKamar = async (req, res) => {
   try {
     let idKamar = req.params.id;
 
-    await tipeModel.destroy({ where: { id_kamar: idKamar } });
+    await tipeModel.destroy({ where: { id: idKamar } });
 
     return res.json({
       succsess: true,
