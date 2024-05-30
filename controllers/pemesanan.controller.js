@@ -65,6 +65,7 @@ exports.filterKamar = async (req, res) => {
       tgl_check_out: req.body.tgl_check_out,
       jumlah_kamar: req.body.jumlah_kamar,
     };
+
     let filter = await typeModel.findAll({
       include: [
         {
@@ -75,6 +76,7 @@ exports.filterKamar = async (req, res) => {
         },
       ],
     });
+
     return res.json(filter);
   } catch (error) {
     return res.json({
@@ -297,6 +299,23 @@ exports.countTransaksi = async (req, res) => {
     });
   }
 };
+
+exports.bookingFilter = async (req,res) => {
+  try {
+    let status = req.body.status_pemesanan
+
+    let filter = await bookingModel.findAll({
+      where: {status_pemesanan: status}
+    })
+
+    res.json({
+      data: filter
+    })
+
+  } catch (error) {
+    res.json(error)
+  }
+}
 
 exports.getCheckIn = async (req, res) => {
   try {
