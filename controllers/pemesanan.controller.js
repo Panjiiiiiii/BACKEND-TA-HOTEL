@@ -300,6 +300,23 @@ exports.countTransaksi = async (req, res) => {
   }
 };
 
+exports.bookingFilter = async (req,res) => {
+  try {
+    let status = req.body.status_pemesanan
+
+    let filter = await bookingModel.findAll({
+      where: {status_pemesanan: status}
+    })
+
+    res.json({
+      data: filter
+    })
+
+  } catch (error) {
+    res.json(error)
+  }
+}
+
 exports.getCheckIn = async (req, res) => {
   try {
     let data = await sequelize.query(
